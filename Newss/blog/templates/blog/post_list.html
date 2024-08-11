@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post List</title>
+    <style>
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination span, .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog Posts</h1>
+    <ul>
+        {% for post in page_obj %}
+            <li>{{ post.title }}: {{ post.content }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="get">
+        <label for="num">Posts per page:</label>
+        <select name="num" id="num" onchange="this.form.submit()">
+            <option value="2">2</option>
+            <option value="5">5</option>
+            <option value="10">10</option>
+        </select>
+    </form>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1&num={{ page_obj.paginator.per_page }}">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}&num={{ page_obj.paginator.per_page }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&num={{ page_obj.paginator.per_page }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}&num={{ page_obj.paginator.per_page }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</body>
+</html>
